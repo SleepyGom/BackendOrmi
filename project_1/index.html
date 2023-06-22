@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>하루 한권</title>
+
+    <link href="./css/style.css" rel="stylesheet"/>
+    <link href="./css/reset.css" rel="stylesheet"/>
+  </head>
+
+  <body>
+    <div class="wrap">
+      <section class="flatform">
+        <h1>하루 한권</h1>
+        <form class="main-content">
+          <fieldset class="age">
+            <h3>나이</h3>
+            <input class="data" type="radio" id="age0" name="age" value="" checked="checked">
+            <label for="age0">선택안함</label>
+
+            <input class="data" type="radio" id="age1" name="age" value="10대">
+            <label for="age1">10대</label>
+
+            <input class="data" type="radio" id="age2" name="age" value="20대">
+            <label for="age2">20대</label>
+
+            <input class="data" type="radio" id="age3" name="age" value="30대">
+            <label for="age3">30대</label>
+
+            <input class="data" type="radio" id="age4" name="age" value="40대">
+            <label for="age4">40대</label>
+
+            <input class="data" type="radio" id="age5" name="age" value="50대">
+            <label for="age5">50대</label>
+
+            <input class="data" type="radio" id="age6" name="age" value="60대">
+            <label for="age6">60대</label>
+          </fieldset>
+          <fieldset class="gender">
+            <h3>성별</h3>
+
+            <input class="data" type="radio" id="none" name="gender" value="" checked="checked">
+            <label for="none">선택안함</label>
+
+            <input class="data" type="radio" id="male" name="gender" value="남성" >
+            <label for="male">남자</label>
+
+            <input class="data" type="radio" id="female" name="gender" value="여성">
+            <label for="female">여자</label>
+
+          </fieldset>
+          <fieldset class="feelarea">
+            <h3>오늘의 기분이나 감정을 간략하게 표현해주세요</h3>
+            <textarea class="data" name="textData" placeholder="오늘의 기분이나 감정을 간략하게 표현해주세요!" autocomplete="off"></textarea>
+          </fieldset>
+          <button type="submit">확인하기</button>
+      </form>
+      </section>
+    </div>
+    <script src = "./js/script.js"></script>
+    <script src = "./js/api.js"></script>
+  </body>
+</html>
