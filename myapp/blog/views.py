@@ -69,3 +69,10 @@ class Update(UpdateView):
     template_name = 'blog/post_edit.html'
     fields = ['title', 'content']
     success_url = reverse_lazy('bolg:list')
+    # initial 기능
+    def get_initial(self):
+        initial = super().get_initial() # UpdateView(generic view) 에서 제공하는 initial(딕셔너리)
+        post = self.get_object() # pk 기반으로 객체를 가져온다
+        initial['title'] = post.title
+        initial['content'] = post.content
+        return initial
