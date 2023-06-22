@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.views import View
-from django.views.generic import ListView , CreateView, DetailView
+from django.views.generic import ListView , CreateView, DetailView , UpdateView
 from .models import Post
 from .forms import PostForm
 from django.urls import reverse_lazy
@@ -62,3 +62,10 @@ class Detail(DetailView):
     model = Post # 모델
     template_name = 'blog/post_detail.html'
     context_object_name = 'post'
+
+
+class Update(UpdateView):
+    model = Post
+    template_name = 'blog/post_edit.html'
+    fields = ['title', 'content']
+    success_url = reverse_lazy('bolg:list')
