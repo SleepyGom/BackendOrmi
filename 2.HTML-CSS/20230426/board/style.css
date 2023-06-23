@@ -1,0 +1,238 @@
+<<<<<<< HEAD
+<<<<<<< HEAD
+*{
+    padding:0;
+    margin:0;
+}
+container{
+    display:flex;
+    width:100%;
+    height:100vh;
+    flex-direction: column;
+    justify-content: flex-start;
+    background:rgba(65, 105, 225, 0.425);
+}
+container h1{
+    padding : 20px 0  0 40px;
+}
+.intro{
+    padding : 10px 0 20px 40px;
+    font-size:  14px;
+    color:#777;
+}
+.signin{
+    width:60%;
+    background:#fff;
+    border-radius:30px;
+    border:2px solid #333;
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+}
+.info{
+    display:flex;
+    flex-direction: column;
+    width:50%;
+}
+.info .wi{
+    display:flex;
+    justify-content: flex-start;
+    margin: 10px 0 10px 40px;
+}
+.info .wi span{
+    width:70px;
+}
+.info .wi input{
+    width:300px;
+    border: 1px solid #333;
+    border-radius: 5px;
+}
+fieldset{
+    margin : 20px 0 0 40px;
+    width:70%;
+    display:flex;
+    flex-direction: row;
+    padding:30px;
+    border-radius:30px;
+}
+fieldset div{
+    margin-right: 30px;
+    display:flex;
+    align-items: center;
+}
+fieldset legend{
+    font-size:  20px;
+}
+fieldset input{
+    margin-left:10px;
+}
+button{
+    width:120px;
+    height:40px;
+    margin : 30px 0 40px 40px;
+    border-radius:8px;
+    background:rgba(65, 105, 225, 0.326);
+    border: 1px solid #ccc;
+}
+button:active{
+    border:1px sold #333;
+=======
+*{
+    padding:0;
+    margin:0;
+}
+container{
+    display:flex;
+    width:100%;
+    height:100vh;
+    flex-direction: column;
+    justify-content: flex-start;
+    background:rgba(65, 105, 225, 0.425);
+}
+container h1{
+    padding : 20px 0  0 40px;
+}
+.intro{
+    padding : 10px 0 20px 40px;
+    font-size:  14px;
+    color:#777;
+}
+.signin{
+    width:60%;
+    background:#fff;
+    border-radius:30px;
+    border:2px solid #333;
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+}
+.info{
+    display:flex;
+    flex-direction: column;
+    width:50%;
+}
+.info .wi{
+    display:flex;
+    justify-content: flex-start;
+    margin: 10px 0 10px 40px;
+}
+.info .wi span{
+    width:70px;
+}
+.info .wi input{
+    width:300px;
+    border: 1px solid #333;
+    border-radius: 5px;
+}
+fieldset{
+    margin : 20px 0 0 40px;
+    width:70%;
+    display:flex;
+    flex-direction: row;
+    padding:30px;
+    border-radius:30px;
+}
+fieldset div{
+    margin-right: 30px;
+    display:flex;
+    align-items: center;
+}
+fieldset legend{
+    font-size:  20px;
+}
+fieldset input{
+    margin-left:10px;
+}
+button{
+    width:120px;
+    height:40px;
+    margin : 30px 0 40px 40px;
+    border-radius:8px;
+    background:rgba(65, 105, 225, 0.326);
+    border: 1px solid #ccc;
+}
+button:active{
+    border:1px sold #333;
+>>>>>>> 0d587b90edefd2af0c5188e128276f15d7c635a8
+=======
+*{
+    padding:0;
+    margin:0;
+}
+container{
+    display:flex;
+    width:100%;
+    height:100vh;
+    flex-direction: column;
+    justify-content: flex-start;
+    background:rgba(65, 105, 225, 0.425);
+}
+container h1{
+    padding : 20px 0  0 40px;
+}
+.intro{
+    padding : 10px 0 20px 40px;
+    font-size:  14px;
+    color:#777;
+}
+.signin{
+    width:60%;
+    background:#fff;
+    border-radius:30px;
+    border:2px solid #333;
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+}
+.info{
+    display:flex;
+    flex-direction: column;
+    width:50%;
+}
+.info .wi{
+    display:flex;
+    justify-content: flex-start;
+    margin: 10px 0 10px 40px;
+}
+.info .wi span{
+    width:70px;
+}
+.info .wi input{
+    width:300px;
+    border: 1px solid #333;
+    border-radius: 5px;
+}
+fieldset{
+    margin : 20px 0 0 40px;
+    width:70%;
+    display:flex;
+    flex-direction: row;
+    padding:30px;
+    border-radius:30px;
+}
+fieldset div{
+    margin-right: 30px;
+    display:flex;
+    align-items: center;
+}
+fieldset legend{
+    font-size:  20px;
+}
+fieldset input{
+    margin-left:10px;
+}
+button{
+    width:120px;
+    height:40px;
+    margin : 30px 0 40px 40px;
+    border-radius:8px;
+    background:rgba(65, 105, 225, 0.326);
+    border: 1px solid #ccc;
+}
+button:active{
+    border:1px sold #333;
+>>>>>>> 0d587b90edefd2af0c5188e128276f15d7c635a8
+}

@@ -1,0 +1,84 @@
+<<<<<<< HEAD
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>DOM 실습</title>
+</head>
+<body>
+    <script>
+        fetch('http://test.api.weniv.co.kr/mall')
+        .then(data => data.json())
+        .then(data => {
+
+            const body = document.querySelector('body')
+
+            for (const i of data) {
+                const flexItem = document.createElement('div')
+                flexItem.classList.add('flex-item')
+
+                const imgItem = document.createElement('img')
+                imgItem.classList.add('thumbnail')
+                imgItem.setAttribute('src', `http://test.api.weniv.co.kr/${i.thumbnailImg}`)
+
+                const nameItem = document.createElement('h2')
+                nameItem.classList.add('productName')
+                nameItem.innerText = `${i.productName}`
+
+                const priceItem = document.createElement('p')
+                priceItem.classList.add('price')
+                priceItem.innerText = `${i.price}`
+
+                flexItem.append(imgItem)
+                flexItem.append(nameItem)
+                flexItem.append(priceItem)
+
+                //flexItem.append(imgItem, nameItem, priceItem) 이렇게도 사용가능
+                body.append(flexItem)
+            }
+        })
+    </script>
+</body>
+=======
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>DOM 실습</title>
+</head>
+<body>
+    <script>
+        fetch('http://test.api.weniv.co.kr/mall')
+        .then(data => data.json())
+        .then(data => {
+
+            const body = document.querySelector('body')
+
+            for (const i of data) {
+                const flexItem = document.createElement('div')
+                flexItem.classList.add('flex-item')
+
+                const imgItem = document.createElement('img')
+                imgItem.classList.add('thumbnail')
+                imgItem.setAttribute('src', `http://test.api.weniv.co.kr/${i.thumbnailImg}`)
+
+                const nameItem = document.createElement('h2')
+                nameItem.classList.add('productName')
+                nameItem.innerText = `${i.productName}`
+
+                const priceItem = document.createElement('p')
+                priceItem.classList.add('price')
+                priceItem.innerText = `${i.price}`
+
+                flexItem.append(imgItem)
+                flexItem.append(nameItem)
+                flexItem.append(priceItem)
+
+                //flexItem.append(imgItem, nameItem, priceItem) 이렇게도 사용가능
+                body.append(flexItem)
+            }
+        })
+    </script>
+</body>
+>>>>>>> 90cbed311723ee62013ba46f8a49fb74a300916f
+</html>
