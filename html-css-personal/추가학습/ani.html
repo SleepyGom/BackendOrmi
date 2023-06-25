@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        canvas {
+            border: 1px solid black;
+        }
+    </style>
+
+    <title>Document</title>
+</head>
+<body>
+        <canvas id="canvas" width="500" height ="500"></canvas>
+
+        <script>
+            const cansvas = document.querySelector("#canvas");
+            const ctx = canvas.getContext('2d');
+
+            ctx.fillRect(0, 0, 50, 50);
+
+            // 선언식
+            // function play(){
+
+            // }
+            
+            let xPos = 0;
+
+            // 표현식 (expression)
+            const play = () => {
+                ctx.clearRect(0, 0, 500, 500);
+                ctx.fillRect(xPos, 0, 50, 50);
+
+                xPos += 3;
+
+                if(xPos > 450){
+                    xPos = 450
+                    while(xPos > 0){
+                        xPos -= 3;
+                    }
+                }
+
+                requestAnimationFrame(play);
+            }
+
+            requestAnimationFrame(play);
+        </script>
+    </body>
+
+</html>
