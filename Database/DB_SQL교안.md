@@ -235,3 +235,301 @@
         * 참고사항 - NULL(빈값) !='NULL(문자값)' 서로 타입이 다르다
 
 
+# 15. 집계 함수
+    * 집계함수는 여러행으로 부터 하나의 결과값을 반환하는 함수다.
+
+    15-1. COUNT
+        * count 함수는 레코드의 개수를 반환한다.
+        ```
+        select count(id)
+        from users;     ===> 유저의 수를 반환
+        ```
+
+        * 참고사항 - count(*)  = null 값을 포함한다.
+                    count(컬럼명) = null값을 포함하지 않는다.
+
+    15-2. SUM
+        * 합계를 반환 하는 함수
+        ```
+        select sum(retail_price)
+        from products
+        ```
+
+    15-3. AVG
+        * 평균을 반환 하는 함수
+        ```
+        select avg(cost)
+        from products
+        ```
+
+    15-4. MAX
+        * 최대값을 반환 하는 함수
+        ```
+        select max(cost), max(retail_price)
+        from products
+        ```
+
+    15-5. MIN
+        * 최소값을 반환 하는 함수
+        '''
+        select min(cost), min(retail_price)
+        from products
+        ```
+    
+    15-6. VARIANCE
+        * 분산을 반환 하는 함수
+        ```
+        select variance(retail_pirce)
+        from products
+        ```
+    
+    15-7. STDDEV
+        * 표준편차를 반환 하는 함수
+        ```
+        select stddev(retail_price)
+        from products
+        ```
+    
+
+# 16. GROUP BY
+    * 특정 항목을 그룹화 하여 조회할 수 있다.
+    * 그룹화하려는 항목이 select에 들어가야한다.
+    ```
+    select
+        gender,
+        avg(age)
+    from users
+    group by gender;
+    ```
+
+# 17. HAVING
+    * 그룹화된 데이터에 조건을 부여한다.
+    * 그룹화된 데이터와 같이 사용되므로 GROUP BY 와 같이 사용된다.
+
+        * 다음 쿼리는 국가 별로 그룹화 하고, 유저수가 4000 이상인 국가와 유저수를 조회한다.
+
+        ```
+        select
+            country,
+            count(id) as user_count
+        from users
+        group by country
+        having count(id) >= 4000;
+        ```
+
+
+# 18. ORDER BY
+    * 출력 결과를 정렬한다
+        * 오름차순 -> ASC(작은수에서 큰수로, Ascending)
+        * 내림차순 -> DESC(큰 수 에서 작은 수로, Descending)
+    18-1 나이순으로 정렬
+        ```
+        select *
+        from users
+        order by age asc;
+        ```
+
+    18-2 나이 내림차순으로 정렬
+        ```
+        select *
+        from users
+        order by age desc;
+
+    18-3 정렬을 여러개 할 경우
+        ```
+        select *
+        from users
+        order by age desc, id asc;
+
+
+# 19. 작성 순서
+    * from
+    * where
+    * group by
+    * having
+    * select
+    * order by
+    * limit
+
+
+# 20. SQL 함수
+    20-1. SQL 함수란?
+        * 미리 정의된 기능 모음
+        * 단일행 함수와 그룹 함수로 나뉜다.
+    
+    20-2. 숫자 함수
+
+        20-2-1. ROUND
+            * 숫자를 반올림 하여 출력하는 함수
+            * 0이 소수점 첫째자리이다.
+                ```
+                select round(반올림 할 숫자, 자릿수)
+                ```
+
+        20-2-2. TRUNC
+            * 숫자를 내림하여 출력하는 함수
+            * 0이 소수점 첫째자리이다.
+                ```
+                select trunc(숫자, 자릿수)
+                ```
+
+        20-2-3. MOD
+            * 숫자를 나누기 하여 나머지를 출력하는 함수
+                ```
+                select mod(숫자, 나눌값)
+                ```
+            
+                ```
+                select mod(10,3) -> 1
+                ```
+
+        20-2-4. POWER
+            * 숫자를 제곱하여 출력
+                ```
+                select power(숫자,승수)
+                ```
+
+        20-2-5. SQRT
+            * 숫자를 제곱근 하여 출력하는 함수
+                ```
+                select sqrt(숫자)
+                ```
+
+    20-3. 문자열 함수
+
+        20-3-1. SURSTR
+            * 문자열 일부만 출력 할 수 있다.
+                ```
+                select substr(문자열, 시작위치, 길이)
+                ```
+        
+        20-3-2. LEFT
+            * 문자열의 왼쪽 부터 얼만큼 자를지 설중 후에 조회
+                ```
+                select left(문자열, 길이)
+                ```
+
+        20-3-3. RIGHT
+            * 문자열 오른쪽에서 부터 자른 후 조회
+                ```
+                select right(문자열, 길이)
+                ```
+
+        20-3-4. CONCAT
+            * 여러 문자열을 하나로 연결 할 수 있다.
+                ```
+                select concat('win','-','ever')
+                ```
+
+            * ||을 이용해서도 연결이 가능하다.
+                ```
+                select 'first_name' || 'last_name'
+                ```
+        
+        20-3-5. LOWER
+            * 문자열을 모두 소문자로 변경한다.
+                ```
+                select lower('ABC')
+                ```
+
+        20-3-6. UPPER
+            * 문자열을 모두 대문자로 변경한다.
+                ```
+                select upper('Abc')
+                ```
+
+        20-3-7. INITCAP
+            * 앞에 문자만 대문자로 만들어준다.
+                ```
+                select initcap('abcde')
+                ```
+
+        20-3-8. REPLACE
+            * 바꾸고 싶은 값으로 대상값을 교체
+                ```
+                select replace('hello word', 'world','sql')
+                ```
+
+                ```
+                select replace('문자열','바뀔 문자열','바꾸고 싶은 문자열')
+                ```
+        
+        20-3-9. LENGTH
+            * 문자열 길이 출력한다.
+                ```
+                select length('hello world')
+                ```
+
+        20-3-10. POSITION
+            * 문자열의 위치를 구한다.
+            * INDEX는 1부터 시작하며 찾는 문자가 없는 경우 0을 반환한다.
+                ```
+                select POSITION('b', IN 'abcedf')
+                ```
+
+        20-3-11. coalesce
+            * 해당값에 NULL값이 있는 경우 다른 값을 채워 넣을 수 있다.
+                ```
+                select coalesce(name,'담당자 지정 안됨')
+                ```
+        
+        20-3-12. ASCII
+            * 아스키코드 번호로 반환하는 함수
+                ```
+                select ascii('A')
+                ```
+
+    20-4. 형변환
+        
+        * CAST(데이터 AS 타입명)
+
+        20-4-1. 문자열
+            ```
+            # 문자열 -> 숫자로 바꾸는거
+            # 문자열 -> 자연수(INTEGER)
+            # 문자열 -> FLOAT
+
+            select CAST('123' AS INT);
+            select '123' + '123' # 에러;
+            select CAST('123' AS INT) + CAST('123' AS INT);
+            select CAST('123.123' AS FLOAT);
+            select CAST('123' AS NUMERIC);
+            select CAST('123.123' AS NUMERIC);
+
+            select '123'::INT;
+            select '123.123'::NUMERIC;
+            select '123.123'::TEXT;
+            ```
+
+        20-4-2. 숫자열
+            ```
+            # 숫자(INTEGER) -> 문자
+            # 숫자(FLOAT) -> 문자
+            # true, false -> 문자
+            select CAST(123 AS TEXT)
+            select CAST(123.123 AS TEXT)
+            select CAST(true AS TEXT)
+            select CAST(false AS TEXT)
+            select CAST(NULL AS TEXT)
+
+            select 123::TEXT;
+            select 123.123::TEXT;
+            select true::TEXT;
+            ```
+        
+        20-4-3. 날짜
+            ```
+            # 날짜 타입
+            # 1) DATE
+            # 문자열 -> DATE
+            # 2) DATETIME
+            # 문자열 -> DATETIME
+            select DATE('2011-12-01 11:12:34')
+
+            SELECT '2011-12-01 11:12:34'::DATE;
+            SELECT '2011-12-01 11:12:34'::TIME;
+            SELECT '2011-12-01 11:12:34'::TIMESTAMP;
+            ```
+
+
+
