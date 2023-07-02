@@ -531,5 +531,55 @@
             SELECT '2011-12-01 11:12:34'::TIMESTAMP;
             ```
 
+# 21. 날짜 함수
+    21-1. 날짜
+        ```
+        SELECT CURRENT_DATE;
+        select current_timesmap;
+        select now();
+        ```
+
+        ```
+        select '2023-1-1'::DATE
+        ```
+
+        ```
+        select created_at::DATE
+        from users
+        ```
+
+        * 데이터 추출
+            ```
+            SELECT EXTRACT(YEAR FROM DATE '2023-1-1');
+
+            SELECT EXTRACT(MONTH FROM DATE '2023-1-1');
+
+            SELECT EXTRACT(DAY FROM DATE '2023-1-1');
+
+            SELECT EXTRACT(DAY FROM CURRENT_DATE);
+            ```
+
+            ```
+            select extract(year from date(created_at))
+            from users
+            ```
+    
+    21-2. 시간
+        * SELECT NOW() - NOW를 통해서 현재 시간을 알아 낼 수 있다.
+            ```
+            SELECT '2023-12-25 05:30:00+00'::TIME
+
+        * 데이터 추출
+            ```
+            SELECT EXTRACT(HOUR FROM NOW());
+            
+            select extract(hour from created_at)
+            from users
+
+    21-3. TO_CHAR(날짜)
+        ```
+        TO_CHAR(date_expr, format_string)
+        ```
+        
 
 
