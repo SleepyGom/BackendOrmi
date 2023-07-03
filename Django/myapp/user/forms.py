@@ -1,15 +1,19 @@
-from django import forms
-from .models import User
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+# from .models import User
+from django.contrib.auth import get_user_model
 
 
-class RegisterForm(forms.ModelForm):
+User = get_user_model()
+
+
+class RegisterForm(UserCreationForm):
 
     class Meta:
         model = User
         fields = ['email','name','password']
 
 
-class LoginForm(forms.ModelForm):
+class LoginForm(AuthenticationForm):
 
     class  Meta:
         model = User

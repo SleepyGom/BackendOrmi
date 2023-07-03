@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.views import View
 from django.views.generic import ListView , CreateView, DetailView , UpdateView , DeleteView
+from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Post, Comment, HashTag
 from .forms import PostForm, CommentForm , HashTagForm
 from django.urls import reverse_lazy, reverse
@@ -17,16 +18,17 @@ from django.urls import reverse_lazy, reverse
 class Index(View):
     def get(self, request):
         # return HttpResponse('Index page GET class')
-
-        # 데이터베이스에 접근해서 값을 가져와야한다
-        # 게시판에 글들ㅇ르 보여줘야하기 떄문에 데이터베이스에서 "값 조회"
+        
+        # 데이터베이스에 접근해서 값을 가져와야 합니다.
+        # 게시판에 글들을 보여줘야하기 때문에 데이터베이스에서 "값 조회"
         # MyModel.objects.all()
         post_objs = Post.objects.all()
         # context = 데이터베이스에서 가져온 값
         context = {
-            "posts" : post_objs
+            "posts": post_objs
         }
-        return render(request,'blog/board.html', context)
+        # print(post_objs) QuerySet<[post 1, 2, 3, 4, 5]>
+        return render(request, 'blog/post_list.html', context)
     
 
 # write
@@ -57,6 +59,29 @@ class Write(CreateView):
     form_class = PostForm # 폼
     success_url = reverse_lazy('blog:list') # 성공시 보내줄 url
     
+
+class Write(LoginRequiredMixin, View):
+    # Mixin: LoginRequiredMixin
+    def get(self, request):
+        form = PostForm()
+        context={
+            'form' : form
+        }
+        return render(request, 'blog/post_form.html', context)
+    
+    def post(self, request):
+        form = PostForm(request.POST)
+        if form.is_valid():
+            post = form.save(commit=False) # commit=False 변수 할당만 우선 하고
+            post.writer = request.user
+            post.save()
+            return redirect('blog:list')
+        form.add_error(None, '폼이 유효하지 않습니다.')
+        context={
+            'form': form
+        }
+        return render(request, 'blog/post_form.html')
+
 
 class Detail(DetailView):
     model = Post # 모델
