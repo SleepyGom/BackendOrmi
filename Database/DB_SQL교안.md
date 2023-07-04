@@ -580,6 +580,92 @@
         ```
         TO_CHAR(date_expr, format_string)
         ```
-        
+    
+    21-4. TO_CHAR(날짜 & 시간)
+        ```
+        SELECT TO_CHAR(TIMESTAMP '2023-01-25 15:30:00', 'YY/MM/DD HH24:MI:SS') AS KR_format;
+        ```
+
+    21-5. 날짜 차이 구하기
+        ```
+        select DATE '2023-08-27' - DATE '2023-06-36' AS date_difference;
+
+        select '2023-08-28'::DATE - '2023-06-26'::DATE;
+
+        select TIME '12:30' - TIME '10:45' AS time_difference;
+
+        select TIMESTAMP '2023-06-27 12:30' - TIMESTAMP '2023-06-26 10:45' AS time_difference;
+
+        select delivered_at - created_at 
+        from orders
+        where status = 'Complete'
+        ```
+
+    21-6. interval
+        * 지정된 사간 간격을 추가 및 뺴는 함수
+        * DATE + interval
+            ```
+            select '2023-1-25'::DATE + interval '5 day';
+
+            select '2023-1-25'::DATE + interval '5 month';
+
+            select '2023-1-25'::DATE + interval '5 year';
+
+            SELECT created_at - INTERVAL '5 DAY'
+            from users;
+
+            select NOW() + interval '1 day';
+
+            SELECT '2023-12-25 15:30:00'::TIMESTAMP + INTERVAL '10 MINUTE'
+            
+            SELECT created_at + INTERVAL '10 minute'
+            from users
+            ```
+
+    22. CASE (조건분기)
+        22-1. 조건분기
+            ```
+            CASE WHEN
+                조건
+            THEN
+                참일경우_실행구문
+            ELSE
+                거짓일 경우 실행_구문
+            END
+            ```
+
+            * 기본 설명(구조)
+            ```
+            SELECT
+                CASE
+                    WHEN true THEN '참입니다.'
+                ELSE
+                    '거짓입니다.'
+                END
+            ```
+
+            * 추가 예시
+            ```
+            SELECT 
+            CASE 
+                WHEN floor = 1 THEN '1층 입니다.' 
+                WHEN floor = 2 THEN '2층 입니다.'
+                WHEN floor = 3 THEN '3층 입니다.'
+                WHEN floor = 4 THEN '4층 입니다.'
+            ELSE 
+                '층수가 없어요' 
+            END;
+            ```
+            * WHEN이 두번 들어가면 첫째는 IF문의 역활 두번째부터는 ELIF(ELSE IF) 문의 역활을 한다.
+
+            * Oracle의 경우에는 DECODE, CASE WHEN
+            * MsSQL의 경우에는 CASE WHEN
+            * MySQL의 경우에는 IF, CASE WHEN
+
+            
+            
+
+
+
 
 
