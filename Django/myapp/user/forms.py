@@ -7,14 +7,18 @@ User = get_user_model()
 
 
 class RegisterForm(UserCreationForm):
-
+    
     class Meta:
         model = User
-        fields = ['email','name','password']
+        fields = UserCreationForm.Meta.fields + ('email',)
 
 
 class LoginForm(AuthenticationForm):
-
-    class  Meta:
+    
+    class Meta:
         model = User
-        fields = ['email', 'password']
+        # fields = ['email', 'password']
+        # widgets = {
+        #     'email': forms.EmailInput(attrs={'placeholder': 'email'}),
+        #     'password': forms.PasswordInput(attrs={'placeholder': 'password'}),
+        # }

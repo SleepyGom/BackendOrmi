@@ -622,50 +622,378 @@
             from users
             ```
 
-    22. CASE (조건분기)
-        22-1. 조건분기
-            ```
-            CASE WHEN
-                조건
-            THEN
-                참일경우_실행구문
+# 22. CASE (조건분기)
+    22-1. 조건분기
+        ```
+        CASE WHEN
+            조건
+        THEN
+            참일경우_실행구문
+        ELSE
+            거짓일 경우 실행_구문
+        END
+        ```
+
+        * 기본 설명(구조)
+        ```
+        SELECT
+            CASE
+                WHEN true THEN '참입니다.'
             ELSE
-                거짓일 경우 실행_구문
+                '거짓입니다.'
             END
-            ```
+        ```
 
-            * 기본 설명(구조)
-            ```
-            SELECT
-                CASE
-                    WHEN true THEN '참입니다.'
-                ELSE
-                    '거짓입니다.'
-                END
-            ```
+        * 추가 예시
+        ```
+        SELECT 
+        CASE 
+            WHEN floor = 1 THEN '1층 입니다.' 
+            WHEN floor = 2 THEN '2층 입니다.'
+            WHEN floor = 3 THEN '3층 입니다.'
+            WHEN floor = 4 THEN '4층 입니다.'
+        ELSE 
+            '층수가 없어요' 
+        END;
+        ```
+        * WHEN이 두번 들어가면 첫째는 IF문의 역활 두번째부터는 ELIF(ELSE IF) 문의 역활을 한다.
 
-            * 추가 예시
-            ```
-            SELECT 
-            CASE 
-                WHEN floor = 1 THEN '1층 입니다.' 
-                WHEN floor = 2 THEN '2층 입니다.'
-                WHEN floor = 3 THEN '3층 입니다.'
-                WHEN floor = 4 THEN '4층 입니다.'
-            ELSE 
-                '층수가 없어요' 
-            END;
-            ```
-            * WHEN이 두번 들어가면 첫째는 IF문의 역활 두번째부터는 ELIF(ELSE IF) 문의 역활을 한다.
-
-            * Oracle의 경우에는 DECODE, CASE WHEN
-            * MsSQL의 경우에는 CASE WHEN
-            * MySQL의 경우에는 IF, CASE WHEN
+        * Oracle의 경우에는 DECODE, CASE WHEN
+        * MsSQL의 경우에는 CASE WHEN
+        * MySQL의 경우에는 IF, CASE WHEN
 
             
+# 23. JOIN
+    23-1. JOIN(기준을 가지고 데이터 합친다.)
+    
+    23-2. INNER JOIN
+        * 두 테이블 모두에서 일치하는 값이 있는 행을 반환 (교집합)
+        
+        * INNER JOIN은 JOIN이라고만 써도 INNER JOIN으로 인식
+        ```sql
+        select table1.id, table2.id
+        from table1
+        [inner] join table2
+            on table2.id=table1.id
+        ```
+        ```sql
+        SELECT <열 목록>
+        FROM <첫 번째 테이블>
+            INNER JOIN <두 번째 테이블>
+            ON <조인 조건>
+        [WHERE 검색 조건]
+        ```
             
+    23-3. OUTER JOIN (LEFT, RIGHT, FULL)
+        
+        23-3-1. LEFT JOIN
+        
+            *   오른쪽 테이블의 해당 행과 함께 왼쪽 테이블의 모든 행을 반환한다.
+                (왼쪽 테이블 + 교집합)
+            
+            *   일치하는 행이 없으면 NULL이 두번째 테이블의 값으로 반환
+            ```sql
+            select table1.id, table2.id
+            from table1
+            left [outer] join table2
+            on table2.id = table1.id
+            ```
+        
+        23-3-2. RIGHT JOIN
+            
+            *   왼쪽 테이블의 해당 행과 함께 오른쪽 테이블의 모든 행을 반환
+                (오른쪽 테이블 + 교집합)
+            
+            *   일치 하는 행이 없으면 NULL을 두번째 테이블의 값으로 반환
+            ```sql
+            select table1.id,table2.id
+            from table1
+            right [outer] join table2
+            on table2.id = table1.id
+            ```
+
+        23-3-3. FULL JOIN
+            *   두번째 테이블에 일치하는 행이 없으면 두 테이블의 모든 행을 반환 하고, NULL이 반환 된다.
+
+            ```sql
+            select table1.id,table2.id
+            from table1
+            full [outer] join table2
+            on talbe2.id = table1.id
+            ```
+
+        23-3-4. 구조
+            ```sql
+            SELECT <열 목록>
+            FROM <첫 번째 테이블(LEFT 테이블)>
+                <LEFT | RIGHT | FULL> OUTER JOIN <두 번째 테이블(RIGHT 테이블)>
+                ON <조인 조건>
+            [WHERE 검색 조건]
+            ```
+
+    
+    23-4. CROSS JOIN
+        
+        * 두 테이블에서 가능한 모든 행 조합을 반환한다.
+
+        ```sql
+        select table1.id, table2.id
+        from table1
+        cross join table2
+        ```
+    
+    23-5. 트랜잭션 데이터(transaction data)
+        
+        * 다양한 애플리케이션에서 일상적인 비즈니스 프로세스를 실행하거나 지원할때 생성되는 데이터이다.
+        * 주문 데이터
+
+    23-6. 마스터 데이터(master data)
+        
+        * 트랜잭션에서 참고되는 각종 정보들
+        * 회원데이터, 상품데이터
+
+    23-7. 분석 데이터
+
+        * 트랜젝션 데이터에 대한 계산 또는 분석을 통해 생성되는 데이터이다.
+        * 통계 데이터
+
+    23-8. 데이터 마트를 위한 비정규화 테이블 만들기
+
+        * 주문 데이터(트랜잭션)에 회원데이터(마스터)와 상품데이터(마스터)를 결합시키기
+
+    
+        ```sql
+        select t1.order_id,
+            t1.user_id,
+            t2.name as user_name,
+            t2.age as user_age,
+            t2.city as user_city,
+            t2.postal_code as user_postal_code,
+            t1.created_at as order_created_at,
+            t1.num_of_item,
+            t1.product_id,
+            t3.name as product_name,
+            t3.cost as product_cost
+        from weniv_order t1
+        left join weniv_user t2 on t1.user_id = t2.id
+        left join weniv_product t3 on t1.product_id = t3.id
+        ```
 
 
+# 24. UNION
+    
+    24-1. 집합
+        
+        * 둘 이상의 쿼리 결과를 단일 결과로 결합
+        * 결합된 쿼리는 동일 한 수의 열을 반환한다.
+        * 호환 가능한 데이터 유형, 해당 열의 이름은 다를 수 있다.
+
+    24-2. UNION(합집합)
+
+        * 두 결과 집합의 결과를 결합하고 중복을 제거한다.
+        * UNION ALL 은 중복행을 제거하지 않는다.
+        
+        * all(중복 허용)
 
 
+        ```sql
+        select * from table1 as t1
+        UNION ALL
+        select * from table3 as t3
+        ```
 
+
+        * distinct(중복 제거)
+
+
+        ```sql
+        select * from table1 as t1
+        UNION DISTINCT
+        select * from table3 as t3
+        ```
+
+    24-3. INTERSECT(교집합)
+
+        * 두 결과 집합 모두에 나타나는 행만 반환 한다.
+
+
+        ```sql
+        select * from table1 as t1
+        INTERSECT DISTINCT
+        select * from table3 as t3
+        ```
+
+    24-4. EXCEPT(차집합, A-B)
+
+        * 첫 결과 집합에는 나타나지만, 두번째 결과 집합에는 나타나지 않는 행만 반환
+
+        
+        ```sql
+        select * from table1 as t1
+        EXCEPT DISTINCT
+        select * from table3 as t3
+        ```
+
+# 25. WITH / 서브쿼리
+
+    25-1. 서브쿼리(Sub Query)
+
+        * 다른 SQL문 안에 중첩된 SELECT 문이다.
+        * 데이터를 쿼리하고 조작하는데 매우 유용할수 있다.
+        * SQL 문보다 효율적이고 유연하게 만드는데 도움이 될 수 있다.
+
+        ```SQL
+        select * 
+        from orders
+        where user_id in (
+            select id 
+            from users
+            where country = 'Brasil'
+        )
+        ```
+
+        ```SQL
+        select id,
+            a.first_name,
+            a.last_name,
+            b.order_count as order_count
+        from users a
+        left join (
+            select user_id, count(order_id) as order_count 
+            from orders
+            group by user_id
+        ) b on a.id = b.user_id
+        order by a.id
+        limit 10;
+        ```
+
+    25-2. WITH(Common Table Expressions)
+
+        * 쿼리 내에서 임시 결과를 정의하고 사용
+        * 주요 사용 목적은 복잡한 추출 과정을 분활하여 단계적으로 처리하면서 전체 데이터 추출과정을 단순화 시키는 것이다.
+
+        * 구조 ( WITH CTE명 AS (쿼리 표현식) )
+
+        ```SQL
+        WITH user_date AS (select id from users)
+        select * from user_data
+        ```
+
+
+# 26. ROLLUP
+
+    26-1. ROLLUP
+
+        * 집계된 데이터에서 그룹별 소계,총계를 구하기 위해 사용한다.
+
+        * 구조
+
+        ```SQL
+        SELECT COUNTRY , COUNT(ID) AS COUNT_USER
+        FROM USERS
+        GROUP BY ROLLUP(COUNTRY)
+        ```
+
+
+# 27. WINDOW
+
+    27-1. WINDOW 함수
+        
+        * 현재 행과 관련이 있는 일련의 테이블 행에 대해 계산을 수행
+        * 분석함수라고도 부른다.
+        * 행그룹의 값을 계산하고, 각 행마다 하나의 결과를 반환
+        * 행그룹에 대해 하나의 결과를 반환하는 집계함수와는 다르다.
+        * OVER 절을 포함하며, 이 절은 평가 중인 행을 중심으로 행의 기간을 정한다.
+        * 각 행에 대한 WINDOW 함수 결과는 선택된 행 윈도우를 입력으로 사용 하여 집계 방식으로 계산된다.
+        * 이동 평균, 항목의 순위, 누적 합계를 계산하고, 기타 분석을 수행 가능하다.
+
+        27-1-1. 윈도우 함수의 분류
+
+            * 그룹 내 순위 관련 함수(RANKING FAMILY)
+                * RANK, DENSE_RANK, ROW_NUMBER
+            * 그룹 내 집계 관련 함수(WINDOW AGGREGATE FAMILY)
+                * SUM, MAX, MIN, AVG, COUNT
+            * 그룹 내 비율 관련 함수
+                * CUME_DIST, PERCENT_RANK, NTILE
+        
+        27-1-2. 문법
+
+            * 함수 이름(컬럼,OFFSET) OVER (PARTITION BY 파티션_커럼 ORDER BY 정렬 컬럼)
+                * OFFSET : 값을 가져올 행의 위치. 기본값 = 1 생략 가능하다.
+            
+    27-2. 순위 윈도우 함수
+
+        27-2-1. RANK()
+            
+            * 파티션 내에서 현재 행의 순위를 부여한다.
+            * 동일 값인 경우 돌일 순위가 부여 되며, 다음 순위는 동일 값의 수만큼 건너 뛴 후 부여된다.
+
+            ```SQL
+            SELECT ID, FIRST_NAME, LAST_NAME, COUNTRY, AGE,
+            RANK() OVER (ORDER BY AGE) AS RNAK_NUMBER_IN_ALL
+            FROM USERS
+            WHERE ID BETWEEN 1 AND 20
+            ORDER BY AGE
+            ```
+
+        27-2-2. DENSE_RANK()
+
+            * 파티션 내에서 현재 행의 순위를 부여한다.
+            * 동일 값인 경우 동일 순위가 부여된다.
+            * 다음 순위는 건너 뛰지 않고 순차 번호로 부여한다.
+
+            ```SQL
+            select 
+                id,
+                first_name,
+                last_name,
+                country,
+                age,
+                DENSE_RANK() OVER ( ORDER BY age ) AS rank_number_in_all
+            from users
+            where id between 1 and 20
+            order by age
+            ```
+
+        27-2-3. ROW_NUMBER()
+
+            * 파티션 내에서 1부터 순차적으로 하나씩 증가하는 번호를 생성
+
+            ```SQL
+            select 
+                id,
+                first_name,
+                last_name,
+                country,
+                created_at,
+                ROW_NUMBER() OVER ( ORDER BY created_at ) AS order_number
+            from users
+            where id between 1 and 20
+            ```
+
+    27-3. 탐색 함수(그룹 내 행 순서 관련 함수)
+
+        27-3-1. LAG, LEAD
+
+            * LAG는 이전 행의 필드를 읽는다.
+            * LEAD는 다음 행의 필드를 읽는다.
+        
+        27-3-2. FIRST_VAULE, LAST_VALUE
+
+            * FIRST_VALUE는 그룹 내의 첫값을 구한다.
+            * LAST_VALUE는 지금까지 읽은 행의 집합을 의미한다.
+            * LAST_VALUE는 항상 자기 자신이다.
+            * 전체 그룹에 대한 마지막 값을 구하려면 ROWS 옵션을 줘야한다.
+
+
+            - ROW : 부분집합인 윈도우 크기를 물리적인 단위로 행 집합을 지정
+            - UNBOUNDED PRECEDING : 윈도우의 시작 위치가 첫번째 ROW
+            - UNBOUNDED FOLLOWING : 윈도우의 마지막 위치가 마지막 ROW
+            - N PRECEDING : N번째 앞행
+            - N FOLLOWING : N번째 뒤행
+        
+        27-3-3. NTH_VALUE
+
+            * 현재 윈도우 프레임에 있는 N번째 행의 값을 반환
+            * 이 행이 없으면 NULL 반환
+            
