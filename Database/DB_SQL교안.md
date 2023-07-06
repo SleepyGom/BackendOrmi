@@ -997,3 +997,338 @@
             * 현재 윈도우 프레임에 있는 N번째 행의 값을 반환
             * 이 행이 없으면 NULL 반환
             
+# 28. 데이터 수정
+
+    28-1. INSERT
+
+        * 테이블에 새 레코드를 삽입할때 사용한다.
+        
+        ```SQL
+        INSERT INTO table (삽입할 열 이름1, 삽입할 열 이름2, ....)
+        VALUES(값1, 값2, ....)
+        ```
+
+        * 모든 열에 대한 값을 추가하는 경우 열 이름 지정 할 필요가 없다.
+        * 값의 순서가 테이블의 열과 같은 순서인지 확인해야한다.
+
+        ```SQL
+        INSERT INTO weniv_product (id, name, cost) VALUES 
+        (13, 'headphones', 80000),
+        (14, 'clock', 100000),
+        (15, 'backpack', 45000),
+        (16, 'water bottle', 5000),
+        (17, 'note cards', 3000),
+        (18, 'pencil case', 12000),
+        (19, 'USB drive', 20000),
+        (20, 'ruler', 5000);
+        ```
+    
+    28-2. UPDATE
+
+        * 조건에 맞는 기존 레코드를 수정 할 수 있다.
+        * WHERE로 여러개를 SELECT 하여 바꿀 수 있다.
+
+        ```SQL
+        UPDATE 테이블명
+        SET 컬럼명1 = 값1, 컬럼명2 = 값2, ...
+        WHERE 조건;
+        ```
+
+        * 하나의 레코드를 업데이트 할시
+
+        ```SQL
+        UPDATE weniv_product 
+        SET cost = 210000 
+        WHERE id = 1;
+        ```
+
+        ```SQL
+        select * from weniv_product
+        where id = 1
+        ```
+
+        * 여러개의 레코드 업데이트시
+
+        ```SQL
+        UPDATE weniv_product 
+        SET cost = cost + 500 
+        WHERE cost < 1000;
+        ```
+
+        * 모든 레코드 업데이트시
+
+        ```SQL
+        UPDATE weniv_product 
+        SET cost = 50000 
+        ```
+        - WHERE 을 생략할 경우 모든 레코드가 수정되므로 주의해야한다.
+
+    28-3. DELETE
+
+        * 기존 레코드를 삭제한다
+        
+        ```SQL
+        DELETE FROM 테이블명 
+        WHERE 조건;
+        ```
+
+        * 하나의 레코드 삭제시
+        
+        ```SQL
+        DELETE FROM weniv_product 
+        WHERE id = 11;
+        ```
+
+        * 여러개의 레코드 삭제시
+
+        ```SQL
+        DELETE FROM weniv_product 
+        WHERE id > 5;
+        ```
+
+        * 모든 레코드 삭제시
+
+        ```SQL
+        DELETE FROM weniv_product
+        ```
+        - WHERE 생략시 전체 삭제 됩니다.
+
+    28-4. UPSERT
+
+        * 새 테이블 생성 - customers
+
+        ```SQL
+        DROP TABLE IF EXISTS customers;
+
+        CREATE TABLE customers (
+            customer_id serial PRIMARY KEY,
+            name VARCHAR UNIQUE,
+            email VARCHAR NOT NULL,
+            active bool NOT NULL DEFAULT TRUE
+        );
+        ```
+
+        ```SQL
+        INSERT INTO
+            customers (name, email)
+        VALUES
+            ('IBM', 'contact@ibm.com'),
+            ('Microsoft', 'contact@microsoft.com'),
+            ('Intel', 'contact@intel.com');
+        ```
+
+        ```SQL
+        INSERT INTO customers (NAME, email)
+        VALUES('Microsoft','hotline@microsoft.com')
+        ON CONFLICT ON CONSTRAINT customers_name_key
+        DO NOTHING;
+        ```
+        - customers 고객 이름(customers_name_key)가 테이블에 있으면 그냥 무시(아무것도 하지 않음)한다.
+
+        ```SQL
+        INSERT INTO customers (name, email)
+        VALUES('Microsoft','hotline@microsoft.com')
+        ON CONFLICT (name)
+        DO
+            UPDATE SET email = EXCLUDED.email || ';' || customers.email;
+        ```
+        - 만약 해당 name이 존재하면 update를 한다.
+
+# 29. 테이블 생성 및 수정
+
+    29-1. CREATE
+
+        29-1-1. CREATE_DATABASE
+
+            * 데이터 베이스를 생성 할때 사용한다.
+
+            ```SQL
+            CREATE DATABASE 데이터베이스명;
+            ```
+            - 데이터베이스를 생성하기 전에 관리자 권한이 있는지 확인해야한다
+
+            * sample_db라는 데이터 베이스를 생성해본다.
+
+            ```SQL
+            CREATE DATABASE sample_db;
+            ```
+
+        29-1-2. CREATE_TABLE
+
+            * 데이베이스에 새 테이블을 생성한다.
+            * 데이블의 열 이름과 그에 맞는 데이터 타입(varchar, int, datetime 등) 을 지정한다.
+
+            ```SQL
+            CREATE TABLE 테이블명(
+                컬럼명1 데이터_타입 [primary key],
+                컬럼명2 데이터_타입
+            )
+            ```
+            
+            * sample_table 에서 id라는 컬럼며의 타입을 int(숫자형)으로 name이라는 컬럼명의 타입을 문자열(길이 12) 로 생성 해본다.
+
+            ```SQL
+            CREATE TABLE sample_table(
+                id int primary key,
+                name varchar(12)
+            )
+            ```
+
+            * 위의 테이블에 값을 추가
+            
+            ```SQL
+            INSERT INTO sample_table
+            VALUES(1, 'Ali')
+            ```
+    
+    29-2. ALTER TABLE
+
+        * 기존 테이블에 다양한 제약조건을 추가, 수정, 삭제한다.
+
+        29-2-1. 컬럼 추가
+
+            * 기존 테이블에 컬럼명을 추가 한다.
+
+            ```SQL
+            ALTER TABLE 테이블명
+            ADD 컬럼명 데이터_타입;
+            ```
+
+            * EX - phone 이라는 컬럼명을 추가해본다.
+
+            ```SQL
+            ALTER TABLE sample_table
+            ADD phone VARCHAR(11)
+            ```
+
+        29-2-2. 컬럼 삭제
+
+            * 기존 테이블에 컬럼명을 삭제한다.
+
+            ```SQL
+            ALTER TABLE 테이블 명
+            DROP COLUMN 컬럼명
+            ```
+
+        29-2-3. 컬럼명 변경
+
+            ```SQL
+            ALTER TABLE 테이블명
+            RENAME COLUMN 기존_컬럼명 TO 새로운_컬럼명
+            ```
+
+        29-2-4. 데이터 유형 변경
+
+            ```SQL
+            ALTER TABLE 테이블명
+            ALTER COLUMN 컬럼명 데이터_타입
+            ```
+
+            * neon.tech 에서는 동작하지 않는다.
+
+    29-3. DROP
+
+        29-3-1. DROP_DATABASE
+
+            * 데이터 베이스를 삭제한다.
+            * 데이터 베이스에 저장된 정보가 모두 삭제된다.
+
+            ```SQL
+            DROP DATABASE sample_db;
+            ```
+        
+        29-3-2. DROP_TABLE
+
+            * 기존에 있던 테이블을 삭제한다.
+            * 테이블에 저장된 정보가 모두 삭제된다.
+
+            ```SQL
+            DROP TABLE sample_table;
+            ```
+
+# 30. ER-Model
+
+    * 요구사항으로 부터 얻어낸 정보들을 개체(Entity), 애트리뷰트(Attribute),관계(Relation) 으로 기술하는 데이터 모델
+
+    30-1. 개체/엔티티(Entity)
+        
+        * 사람, 장소, 사물, 사건 등과 같이 독립적으로 존재하면서 고유하게 식별 가능한 실세계의 개체
+        * 학생 한명 한명이 객체이며, Entity Type 은 개체들의 집합으로 : Student, Course
+    
+    30-2. 애트리뷰트(Attribute)
+
+        * 개체가 가지는 속성을 의미힌다.
+        * 예를 들어 Student의 학번, 이름, 학년 같은 정보들이다.
+        
+        30-2-1. 키 애트리뷰트(Key Attribute)
+
+            * 다른 객체들과 중복되지 않는 고유한 값을 가진 Attribute
+            * 주로 객체를 식별하는데 사용한다.
+            * 예를 들어 학번
+
+        30-2-2. 복합 애트리뷰트(Composite Attribute)
+
+            * 독립적인 Attribute들이 모여, 생성된 Attribute
+            * 예시
+                * 주소
+                    - 도
+                    - 시
+                    - 동
+
+        30-2-3. 다중값 애트리뷰트 (Multi-Valued Attribute)
+
+            * 하나의 Attribute가 여러개의 값을 가지는 Attribute
+            * 예를 들어 학생의 전공을 나타내는 Degree Attribute가 있을 시, 이 학생이 복수전공을 하면 Degree Attribute 값은 2개가 된다. 이때 Degree Attribue는 다중값 애트리뷰트가 된다.
+
+        30-2-4. 유도된 애트리뷰트(Deribed Attribute)
+            
+            * 다른 Attribute 가 가지고 있는 값으로부터 계산 되어져 나온것을 의미한다.
+            * 예를 들어 모든 상품의 총 가격을 나타내는 total
+            * total은 price와 count의 곱으로 계산이 되어져 나오는 값
+    
+    30-3. 관계(Relation)
+
+        * Entity Type간 의 관계를 의미하며
+        * 수강을 뜻하는 Takes는 학생과 과목간의 수강이라는 관계를 갖는다.
+        * Takes 를 Relation Type 이라고 하며, 이 역시 속성을 가질 수 있다.
+
+        30-3-1. 관계성(Relationship)
+            
+            * Entity Type 간의 관계를 표현
+            * 2가지 제약조건을 명시함으로 표현 가능하다.
+
+            - 카디널리티 비율 제약 조건(Cadinality Ratio Constraint)
+                 
+                 * 한개체가 얼마나 많은 다른 개체와 관련될 수 있는지 나타내는 제약조건
+
+                 - 1:1 : 두개의 엔티티타입의 개체들은 서로 일대일로 대응
+
+                 - 1:N : 엔티티 타입 A의 각 원소는 엔티티 타입의 B의 원소 여러개와 대응 / 엔티티타입 B는 엔티티 타입 A의 원소 하내과 대응한다.
+
+                 - N:M : 엔티티 타입 A의 각 원소는 엔티티타입의 B의 원소 여러개와 대응 / 엔티티타입 B의 각 원소는 엔티티타입의 A의 원소 여러개와 대응( 다대다 )
+
+# 31. 추가적인 구문 정보
+
+    31-1. Varchar & Char
+
+
+        31-1-1. Char
+
+            * 고정 길이 문자열 저장
+            * 최대 길이 255바이트
+            * 크기보다 작은 문자열 저장시 뒷부분은 공백으로 채워진다.
+            
+        31-1-2. Varchar
+        
+            * 가변 길이 문자열 저장
+            * 최대 길이 255바이트
+            * length + 1 만큼 저장된다.
+
+            - insert 되는 길이가 모두 같으면 char 타입으로 지정하고, varchar은 문자열 길이를 저장하는데 같은 길이라면 더 많은 공간을 소비한다.
+            - insert 되는 길이가 다르면 varchar로 지정한다. / char은 항상 지정된 바이트 만큼 공간을 차지하며 null 인경우에도 같은 공간을 차지한다.
+
+            * 주의사항
+                - 한테이블에서 varchar, blob, test 컬럼과 char을 혼합할 수 없다.
+                - 혼합시에 char 컬럼은 varchar로 자동 변환된다.
+                - 하지만 예외로 char 컬럼이 4바이트 이하일 경우에는 char타입으로 놔둔다.(varchar의 모든 컬럼이 4바이트보다 작으면 모두 char타입으로 자동 변환)
+
