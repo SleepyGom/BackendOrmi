@@ -206,10 +206,13 @@ class DetailView(View):
         # print(post)
         
         # 댓글
+        # Object.objects.select_related('(정)참조 관계를 갖는 필드명').filter(조건)
         # comments = Comment.objects.select_related('writer').filter(post=post)
         # comments = Comment.objects.select_related('writer').filter(post__pk=pk)
         comments = Comment.objects.select_related('post') # -> comments[0]
         # comment = Comment.objects.select_related('post').first()
+
+        
         # 해시태그
         # hashtags = HashTag.objects.select_related('writer').filter(post=post)
         # hashtags = HashTag.objects.select_related('writer').filter(post__pk=pk)
